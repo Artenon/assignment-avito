@@ -15,3 +15,18 @@ export const fetchGames = createAsyncThunk<
   const { data } = await api.get<Game[]>(APIRoute.Games);
   return data;
 });
+
+export const filterGames = createAsyncThunk<
+  Game[],
+  string,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(`GAMES/filterGames`, async (p, { dispatch, extra: api, getState }) => {
+  const { data } = await api.get<Game[]>(
+    `${APIRoute.Games}?${APIRoute.Platform}${p}`
+  );
+  return data;
+});
