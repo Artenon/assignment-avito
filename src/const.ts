@@ -1,3 +1,11 @@
+import { ToastOptions } from "react-toastify";
+
+export const toastifyOptions: ToastOptions = {
+  theme: "dark",
+  position: "bottom-right",
+  autoClose: 2500,
+};
+
 export enum AppRoute {
   Main = "/",
 }
