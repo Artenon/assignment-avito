@@ -7,6 +7,7 @@ import { Spinner } from "../../components/spinner/spinner";
 import { GameCard } from "../../components/game-card/game-card";
 import { FilterPlatform } from "../../components/filter/filter-platform";
 import { FilterGenre } from "../../components/filter/filter-genre";
+import { Sorting } from "../../components/filter/sorting";
 
 export const MainPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,9 @@ export const MainPage: FC = () => {
         </Col>
         <Col>
           <FilterGenre />
+        </Col>
+        <Col>
+          <Sorting />
         </Col>
       </Row>
       {isLoading ? (

@@ -9,10 +9,10 @@ export enum APIRoute {
 }
 
 export const sortOptions = [
-  "release-date",
-  "popularity",
-  "alphabetical",
-  "relevance",
+  { value: "release-date", label: "Release Date" },
+  { value: "popularity", label: "Popularity" },
+  { value: "alphabetical", label: "Alphabetical" },
+  { value: "relevance", label: "Relevance" },
 ];
 
 export const platforms = [
