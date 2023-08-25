@@ -42,7 +42,11 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(filterGames.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.games = action.payload;
+      if (action.payload.status === 0) {
+        state.games = [];
+      } else {
+        state.games = action.payload;
+      }
     })
     .addCase(filterGames.rejected, (state) => {
       state.isLoading = false;

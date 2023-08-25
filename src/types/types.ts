@@ -17,6 +17,11 @@ export type Game = {
   freetogame_profile_url: string;
 };
 
+export type StatusResponse = {
+  status: number;
+  status_message: string;
+};
+
 export type Filter = {
   categories: string[];
   platform: string | null;

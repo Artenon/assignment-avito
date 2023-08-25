@@ -36,11 +36,15 @@ export const MainPage: FC = () => {
         <Spinner />
       ) : (
         <Row lg={3} sm={2} xs={1} className="g-4 py-4">
-          {games.map((game) => (
-            <Col key={game.id}>
-              <GameCard game={game} />
-            </Col>
-          ))}
+          {games.length === 0 ? (
+            <h3 className="text-white">Ничего не найдено :(</h3>
+          ) : (
+            games.map((game) => (
+              <Col key={game.id}>
+                <GameCard game={game} />
+              </Col>
+            ))
+          )}
         </Row>
       )}
     </Container>

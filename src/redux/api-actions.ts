@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosInstance } from "axios";
-import { State, AppDispatch, Game } from "../types/types";
+import { State, AppDispatch, Game, StatusResponse } from "../types/types";
 import { APIRoute } from "../const";
 
 export const fetchGames = createAsyncThunk<
@@ -17,7 +17,7 @@ export const fetchGames = createAsyncThunk<
 });
 
 export const filterGames = createAsyncThunk<
-  Game[],
+  Game[] & StatusResponse,
   undefined,
   {
     dispatch: AppDispatch;
@@ -30,14 +30,14 @@ export const filterGames = createAsyncThunk<
   } = getState();
 
   if (categories && categories.length > 1) {
-    const { data } = await api.get<Game[]>(
+    const { data } = await api.get<Game[] & StatusResponse>(
       `${APIRoute.Filter}?tag=${categories.join(".")}${
         platform ? `&platform=${platform}` : ""
       }${sorting ? `&sort-by=${sorting}` : ""}`
     );
     return data;
   } else {
-    const { data } = await api.get<Game[]>(
+    const { data } = await api.get<Game[] & StatusResponse>(
       `${APIRoute.Games}?${platform ? `platform=${platform}` : ""}${
         categories.length === 1 ? `&category=${categories[0]}` : ""
       }${sorting ? `&sort-by=${sorting}` : ""}`
