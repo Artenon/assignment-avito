@@ -2,6 +2,7 @@ import { FC } from "react";
 import Select, { SingleValue } from "react-select";
 import { useAppDispatch } from "../../hooks";
 import { filterGames } from "../../redux/api-actions";
+import { changeFilterPlatform } from "../../redux/reducer";
 import { platforms } from "../../const";
 
 export const FilterPlatform: FC = () => {
@@ -11,7 +12,8 @@ export const FilterPlatform: FC = () => {
     newValue: SingleValue<{ value: string; label: string }>
   ) => {
     if (newValue) {
-      dispatch(filterGames(newValue.value));
+      dispatch(changeFilterPlatform(newValue.value));
+      dispatch(filterGames());
     }
   };
 

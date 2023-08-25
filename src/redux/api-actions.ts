@@ -18,15 +18,30 @@ export const fetchGames = createAsyncThunk<
 
 export const filterGames = createAsyncThunk<
   Game[],
-  string,
+  undefined,
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
->(`GAMES/filterGames`, async (p, { dispatch, extra: api, getState }) => {
-  const { data } = await api.get<Game[]>(
-    `${APIRoute.Games}?${APIRoute.Platform}${p}`
-  );
-  return data;
+>(`GAMES/filterGames`, async (_arg, { dispatch, extra: api, getState }) => {
+  const {
+    filter: { categories, platform, sorting },
+  } = getState();
+
+  if (categories && categories.length > 1) {
+    const { data } = await api.get<Game[]>(
+      `${APIRoute.Filter}?tag=${categories.join(".")}${
+        platform ? `&platform=${platform}` : ""
+      }${sorting ? `&sort-by=${sorting}` : ""}`
+    );
+    return data;
+  } else {
+    const { data } = await api.get<Game[]>(
+      `${APIRoute.Games}?${platform ? `platform=${platform}` : ""}${
+        categories.length === 1 ? `&category=${categories[0]}` : ""
+      }${sorting ? `&sort-by=${sorting}` : ""}`
+    );
+    return data;
+  }
 });

@@ -6,11 +6,6 @@ export enum APIRoute {
   Games = "/games",
   Game = "/game",
   Filter = "/filter",
-  Category = "category=",
-  Platform = "platform=",
-  SortBy = "sort-by=",
-  Tag = "tag=",
-  Id = "id=",
 }
 
 export const sortOptions = [
