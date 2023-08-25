@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { MainPage } from "./pages/main-page/main-page";
+import { AppRoute } from "./const";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route></Route>
+          <Route path={AppRoute.Main} element={<MainPage />} />
         </Routes>
       </div>
     </BrowserRouter>
