@@ -18,11 +18,14 @@ export const FilterGenre: FC = () => {
   };
 
   return (
-    <Select
-      options={genres.map((genre) => ({ value: genre, label: genre }))}
-      placeholder="Select Genre"
-      onChange={changeSelectHandler}
-      isMulti
-    />
+    <>
+      <h5 className="text-white">Genres:</h5>
+      <Select
+        options={genres.map((genre) => ({ value: genre, label: genre }))}
+        placeholder="Select Genre"
+        onChange={changeSelectHandler}
+        isMulti
+      />
+    </>
   );
 };

@@ -18,10 +18,13 @@ export const Sorting: FC = () => {
   };
 
   return (
-    <Select
-      options={sortOptions}
-      placeholder="Select Platform"
-      onChange={changeSelectHandler}
-    />
+    <>
+      <h5 className="text-white">Sort by:</h5>
+      <Select
+        options={sortOptions}
+        placeholder="Select Platform"
+        onChange={changeSelectHandler}
+      />
+    </>
   );
 };

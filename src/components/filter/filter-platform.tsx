@@ -18,10 +18,13 @@ export const FilterPlatform: FC = () => {
   };
 
   return (
-    <Select
-      options={platforms}
-      placeholder="Select Platform"
-      onChange={changeSelectHandler}
-    />
+    <>
+      <h5 className="text-white">Platform:</h5>
+      <Select
+        options={platforms}
+        placeholder="Select Platform"
+        onChange={changeSelectHandler}
+      />
+    </>
   );
 };
