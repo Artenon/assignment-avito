@@ -1,4 +1,5 @@
-import { Game, State } from "../../types/types";
+import { Filter, Game, State } from "../../types/types";
 
 export const getGames = (state: State): Game[] => state.GAMES.games;
 export const getIsLoading = (state: State): boolean => state.GAMES.isLoading;
+export const getFilter = (state: State): Filter => state.GAMES.filter;

@@ -1,8 +1,8 @@
 import { FC, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { fetchGames } from "../../redux/games/api-actions";
-import { getGames, getIsLoading } from "../../redux/games/selectors";
+import { fetchGames, filterGames } from "../../redux/games/api-actions";
+import { getFilter, getGames, getIsLoading } from "../../redux/games/selectors";
 import { Spinner } from "../../components/spinner/spinner";
 import { GameCard } from "../../components/game-card/game-card";
 import { FilterPlatform } from "../../components/filter/filter-platform";
@@ -14,10 +14,15 @@ export const MainPage: FC = () => {
 
   const games = useAppSelector(getGames);
   const isLoading = useAppSelector(getIsLoading);
+  const { sorting, categories, platform } = useAppSelector(getFilter);
 
   useEffect(() => {
-    dispatch(fetchGames());
-  }, [dispatch]);
+    if (sorting || platform || categories.length !== 0) {
+      dispatch(filterGames());
+    } else {
+      dispatch(fetchGames());
+    }
+  }, [categories.length, dispatch, platform, sorting]);
 
   return (
     <>

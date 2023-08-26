@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Select, { MultiValue } from "react-select";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { getFilter } from "../../redux/games/selectors";
 import { filterGames } from "../../redux/games/api-actions";
 import actions from "../../redux/games/games-slice";
 import { genres } from "../../const";
@@ -9,6 +10,8 @@ const { changeFilterGenres } = actions;
 
 export const FilterGenre: FC = () => {
   const dispatch = useAppDispatch();
+
+  const { categories } = useAppSelector(getFilter);
 
   const changeSelectHandler = (
     newValues: MultiValue<{ value: string; label: string }>
@@ -27,6 +30,7 @@ export const FilterGenre: FC = () => {
         placeholder="Select Genre"
         onChange={changeSelectHandler}
         isMulti
+        value={categories.map((genre) => ({ value: genre, label: genre }))}
       />
     </>
   );

@@ -1,7 +1,8 @@
 import { FC } from "react";
 import Select, { SingleValue } from "react-select";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { filterGames } from "../../redux/games/api-actions";
+import { getFilter } from "../../redux/games/selectors";
 import actions from "../../redux/games/games-slice";
 import { platforms } from "../../const";
 
@@ -9,6 +10,9 @@ const { changeFilterPlatform } = actions;
 
 export const FilterPlatform: FC = () => {
   const dispatch = useAppDispatch();
+
+  const { platform } = useAppSelector(getFilter);
+  const platformOption = platforms.filter((e) => e.value === platform);
 
   const changeSelectHandler = (
     newValue: SingleValue<{ value: string; label: string }>
@@ -26,6 +30,7 @@ export const FilterPlatform: FC = () => {
         options={platforms}
         placeholder="Select Platform"
         onChange={changeSelectHandler}
+        value={platformOption}
       />
     </>
   );
