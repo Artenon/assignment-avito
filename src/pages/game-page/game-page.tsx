@@ -39,7 +39,12 @@ export const GamePage: FC = () => {
     <div className="text-light">
       <Row>
         <Col md={4}>
-          <Image src={currentGame.thumbnail} className="w-100 mb-2" />
+          <Image
+            src={currentGame.thumbnail}
+            className="w-100 mb-2"
+            style={{ minHeight: 120 }}
+            rounded
+          />
           <div className="d-grid">
             <Button
               variant="secondary text-uppercase bold pt-2 pb-2 d-flex align-items-center justify-content-center gap-1 mb-2"
@@ -50,20 +55,20 @@ export const GamePage: FC = () => {
             </Button>
           </div>
           <div>
-            <LightText text="Genre:" />
-            {" " + currentGame.genre}
+            <LightText text="Genre: " />
+            {currentGame.genre}
           </div>
           <div>
-            <LightText text="Publisher:" />
-            {" " + currentGame.publisher}
+            <LightText text="Publisher: " />
+            {currentGame.publisher}
           </div>
           <div>
-            <LightText text="Developer:" />
-            {" " + currentGame.developer}
+            <LightText text="Developer: " />
+            {currentGame.developer}
           </div>
           <div>
-            <LightText text="Release:" />
-            {" " + formatDate(currentGame.release_date)}
+            <LightText text="Release: " />
+            {formatDate(currentGame.release_date)}
           </div>
         </Col>
         <Col md={8}>
@@ -74,7 +79,12 @@ export const GamePage: FC = () => {
             <Carousel fade>
               {currentGame.screenshots.map((screenshot) => (
                 <Carousel.Item key={screenshot.id}>
-                  <Image src={screenshot.image} className="w-100" />
+                  <Image
+                    src={screenshot.image}
+                    className="w-100"
+                    style={{ minHeight: 255 }}
+                    rounded
+                  />
                 </Carousel.Item>
               ))}
             </Carousel>

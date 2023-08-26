@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { Card, Badge } from "react-bootstrap";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Game } from "../../types/types";
 import { AppRoute } from "../../const";
 import { formatDate } from "../../utils/format-date";
@@ -12,9 +13,9 @@ type GameCardProps = {
 export const GameCard: FC<GameCardProps> = ({ game }) => {
   return (
     <Link to={`${AppRoute.Game}/${game.id}`}>
-      <Card bg="dark" text="white" style={{ height: "100%" }}>
-        <Card.Img variant="top" src={game.thumbnail} />
-        <Card.Body className="d-flex flex-column justify-content-between">
+      <Card bg="dark" text="white" className="h-100 border-0">
+        <LazyLoadImage src={game.thumbnail} style={{ minHeight: 140 }} />
+        <Card.Body>
           <div>
             <Card.Title>{game.title}</Card.Title>
             <Card.Subtitle>{game.developer}</Card.Subtitle>
