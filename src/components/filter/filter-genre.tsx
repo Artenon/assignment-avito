@@ -1,9 +1,11 @@
 import { FC } from "react";
 import Select, { MultiValue } from "react-select";
 import { useAppDispatch } from "../../hooks";
-import { filterGames } from "../../redux/api-actions";
-import { changeFilterGenres } from "../../redux/reducer";
+import { filterGames } from "../../redux/games/api-actions";
+import actions from "../../redux/games/games-slice";
 import { genres } from "../../const";
+
+const { changeFilterGenres } = actions;
 
 export const FilterGenre: FC = () => {
   const dispatch = useAppDispatch();

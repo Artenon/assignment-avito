@@ -1,9 +1,11 @@
 import { FC } from "react";
 import Select, { SingleValue } from "react-select";
 import { useAppDispatch } from "../../hooks";
-import { filterGames } from "../../redux/api-actions";
-import { changeFilterSorting } from "../../redux/reducer";
+import { filterGames } from "../../redux/games/api-actions";
+import actions from "../../redux/games/games-slice";
 import { sortOptions } from "../../const";
+
+const { changeFilterSorting } = actions;
 
 export const Sorting: FC = () => {
   const dispatch = useAppDispatch();

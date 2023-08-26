@@ -1,9 +1,11 @@
 import { FC } from "react";
 import Select, { SingleValue } from "react-select";
 import { useAppDispatch } from "../../hooks";
-import { filterGames } from "../../redux/api-actions";
-import { changeFilterPlatform } from "../../redux/reducer";
+import { filterGames } from "../../redux/games/api-actions";
+import actions from "../../redux/games/games-slice";
 import { platforms } from "../../const";
+
+const { changeFilterPlatform } = actions;
 
 export const FilterPlatform: FC = () => {
   const dispatch = useAppDispatch();

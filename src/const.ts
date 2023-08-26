@@ -8,12 +8,18 @@ export const toastifyOptions: ToastOptions = {
 
 export enum AppRoute {
   Main = "/",
+  Game = "/game",
 }
 
 export enum APIRoute {
   Games = "/games",
   Game = "/game",
   Filter = "/filter",
+}
+
+export enum NameSpace {
+  GAMES = "GAMES",
+  CURRENT_GAME = "CURRENT_GAME",
 }
 
 export const sortOptions = [

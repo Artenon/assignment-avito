@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosInstance } from "axios";
-import { State, AppDispatch, Game, StatusResponse } from "../types/types";
-import { APIRoute } from "../const";
+import { State, AppDispatch, Game, StatusResponse } from "../../types/types";
+import { APIRoute } from "../../const";
 
 export const fetchGames = createAsyncThunk<
   Game[],
@@ -26,7 +26,9 @@ export const filterGames = createAsyncThunk<
   }
 >(`GAMES/filterGames`, async (_arg, { dispatch, extra: api, getState }) => {
   const {
-    filter: { categories, platform, sorting },
+    GAMES: {
+      filter: { categories, platform, sorting },
+    },
   } = getState();
 
   if (categories && categories.length > 1) {

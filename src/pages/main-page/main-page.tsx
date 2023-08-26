@@ -1,8 +1,8 @@
 import { FC, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { fetchGames } from "../../redux/api-actions";
-import { getGames, getIsLoading } from "../../redux/selectors";
+import { fetchGames } from "../../redux/games/api-actions";
+import { getGames, getIsLoading } from "../../redux/games/selectors";
 import { Spinner } from "../../components/spinner/spinner";
 import { GameCard } from "../../components/game-card/game-card";
 import { FilterPlatform } from "../../components/filter/filter-platform";
@@ -20,7 +20,7 @@ export const MainPage: FC = () => {
   }, [dispatch]);
 
   return (
-    <Container>
+    <>
       <Row>
         <Col>
           <FilterPlatform />
@@ -47,6 +47,6 @@ export const MainPage: FC = () => {
           )}
         </Row>
       )}
-    </Container>
+    </>
   );
 };
