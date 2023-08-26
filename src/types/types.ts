@@ -40,9 +40,9 @@ export type GameInfo = {
   platform: string;
   publisher: string;
   developer: string;
-  release_date: Date;
+  release_date: string;
   freetogame_profile_url: string;
-  minimum_system_requirements: MinimumSystemRequirements;
+  minimum_system_requirements?: MinimumSystemRequirements;
   screenshots: Screenshot[];
 };
 

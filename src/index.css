@@ -6,3 +6,11 @@ body {
 a {
   text-decoration: none;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+img {
+  border-radius: 8px;
+}
