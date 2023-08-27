@@ -6,6 +6,8 @@ import { Game } from "../../types/types";
 import { AppRoute } from "../../const";
 import { formatDate } from "../../utils/format-date";
 
+import s from "./game-card.module.css";
+
 type GameCardProps = {
   game: Game;
 };
@@ -13,9 +15,9 @@ type GameCardProps = {
 export const GameCard: FC<GameCardProps> = ({ game }) => {
   return (
     <Link to={`${AppRoute.Game}/${game.id}`}>
-      <Card bg="dark" text="white" className="h-100 border-0">
+      <Card bg="dark" text="white" className={`h-100 border-0 ${s.card}`}>
         <LazyLoadImage src={game.thumbnail} style={{ minHeight: 140 }} />
-        <Card.Body>
+        <Card.Body className={s.body}>
           <div>
             <Card.Title>{game.title}</Card.Title>
             <Card.Subtitle>{game.developer}</Card.Subtitle>

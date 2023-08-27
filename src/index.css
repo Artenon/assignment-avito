@@ -1,5 +1,5 @@
 body {
-  background-color: #454c53;
+  background-color: #1f1f1f;
   padding: 1.5rem 0;
 }
 
@@ -7,10 +7,15 @@ a {
   text-decoration: none;
 }
 
+img {
+  border-radius: 0.3rem;
+}
+
 .bold {
   font-weight: bold;
 }
 
-img {
-  border-radius: 0.3rem;
+.breadcrumb {
+  margin-bottom: 0;
+  transition: .2s;
 }

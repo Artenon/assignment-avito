@@ -1,0 +1,18 @@
+.icon_back {
+  cursor: pointer;
+  transition: .2s;
+}
+
+.icon_back:hover {
+  transform: scale(1.02);
+  background-color: white !important;
+  color: #000 !important;
+}
+
+.icon_back:hover li {
+  color: #000 !important;
+}
+
+.icon_back:active {
+  transform: scale(0.98);
+}
