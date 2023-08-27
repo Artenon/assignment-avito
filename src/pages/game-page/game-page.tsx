@@ -11,6 +11,7 @@ import {
 import { Spinner } from "../../components/spinner/spinner";
 import { formatDate } from "../../utils/format-date";
 import { LightText } from "../../components/light-text/light-text";
+import { Game } from "../../types/types";
 
 export const GamePage: FC = () => {
   const dispatch = useAppDispatch();
@@ -24,8 +25,15 @@ export const GamePage: FC = () => {
   };
 
   useEffect(() => {
+    const storage = localStorage.getItem("persist:currentGame");
+    const game: Game = storage && JSON.parse(JSON.parse(storage).game);
+
     if (gameID) {
-      dispatch(fetchGame(gameID));
+      if (String(game.id) === gameID) {
+        return;
+      } else {
+        dispatch(fetchGame(gameID));
+      }
     }
   }, [dispatch, gameID]);
 
