@@ -9,6 +9,7 @@ import {
   Breadcrumb,
   Spinner as BSpinner,
 } from "react-bootstrap";
+import { useCookies } from "react-cookie";
 import { FaSignInAlt } from "react-icons/fa";
 import { IoReturnUpBack } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -17,10 +18,10 @@ import {
   getCurrentGame,
   getIsLoading,
 } from "../../redux/current-game/selectors";
+import { actions } from "../../redux/current-game/current-game-slice";
 import { Spinner } from "../../components/spinner/spinner";
 import { formatDate } from "../../utils/format-date";
 import { LightText } from "../../components/light-text/light-text";
-import { Game } from "../../types/types";
 import { AppRoute } from "../../const";
 
 import s from "./game-page.module.css";
@@ -28,26 +29,26 @@ import s from "./game-page.module.css";
 export const GamePage: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const { gameID } = useParams();
 
   const currentGame = useAppSelector(getCurrentGame);
   const isLoading = useAppSelector(getIsLoading);
 
+  const [cookies] = useCookies([gameID || ""]);
+
   const playClickHandler = (url: string) => window.open(url, "_blank");
   const backClickHandler = () => navigate(AppRoute.Main);
 
   useEffect(() => {
-    const storage = localStorage.getItem("persist:currentGame");
-    const game: Game = storage && JSON.parse(JSON.parse(storage).game);
-
     if (gameID) {
-      if (game && String(game.id) === gameID) {
-        return;
+      if (cookies[gameID]) {
+        dispatch(actions.setCurrentGame(cookies[gameID]));
       } else {
         dispatch(fetchGame(gameID));
       }
     }
-  }, [dispatch, gameID]);
+  }, [cookies, dispatch, gameID]);
 
   return (
     <div className="text-light">

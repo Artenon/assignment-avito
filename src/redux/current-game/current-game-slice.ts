@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { fetchGame } from "./api-actions";
 import { GameInfo } from "../../types/types";
@@ -15,7 +15,11 @@ const initialState: {
 export const currentGameSlice = createSlice({
   name: NameSpace.CURRENT_GAME,
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentGame: (state, action: PayloadAction<GameInfo>) => {
+      state.game = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchGame.pending, (state) => {
@@ -31,3 +35,5 @@ export const currentGameSlice = createSlice({
       });
   },
 });
+
+export const actions = currentGameSlice.actions;
