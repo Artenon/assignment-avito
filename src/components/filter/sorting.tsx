@@ -8,7 +8,7 @@ import { sortOptions } from "../../const";
 
 const { changeFilterSorting } = actions;
 
-export const Sorting: FC = () => {
+export const Sorting: FC<{ light: boolean }> = ({ light }) => {
   const dispatch = useAppDispatch();
 
   const { sorting } = useAppSelector(getFilter);
@@ -27,12 +27,46 @@ export const Sorting: FC = () => {
 
   return (
     <>
-      <h5 className="text-white">Sort by:</h5>
+      <h5 className={`${light ? "text-muted" : "text-white"}`}>Sort by:</h5>
       <Select
         options={sortOptions}
         placeholder="Select Sorting"
         onChange={changeSelectHandler}
         value={sortingOption}
+        styles={{
+          control: (base) => ({
+            ...base,
+            borderColor: "#717171",
+          }),
+          option: (base, { isFocused }) => ({
+            ...base,
+            color: "#dbdbdb",
+            backgroundColor: isFocused ? "#717171" : undefined,
+          }),
+          indicatorSeparator: (base) => ({
+            ...base,
+            backgroundColor: "#717171",
+          }),
+          dropdownIndicator: (base, { isFocused }) => ({
+            ...base,
+            color: isFocused ? "#9d9d9d" : "#717171",
+          }),
+          clearIndicator: (base, { isFocused }) => ({
+            ...base,
+            color: isFocused ? "#9d9d9d" : "#717171",
+          }),
+        }}
+        theme={(theme) => ({
+          ...theme,
+          colors: {
+            ...theme.colors,
+            primary: "#9d9d9d",
+            primary50: "#515151",
+            neutral0: "#262626",
+            neutral10: "#4f4f4f",
+            neutral80: "#dbdbdb",
+          },
+        })}
       />
     </>
   );

@@ -55,7 +55,7 @@ export const GamePage: FC = () => {
       <Row>
         <div className={`d-flex mb-3`}>
           <div
-            className={`${s.icon_back} py-1 px-4 d-flex align-items-center gap-2 rounded-pill bg-secondary text-light`}
+            className={`${s.icon_back} mw-100 py-1 px-4 d-flex align-items-center gap-2 rounded-pill bg-secondary text-light`}
             onClick={backClickHandler}
           >
             <IoReturnUpBack size={24} className="me-2" />
@@ -63,7 +63,7 @@ export const GamePage: FC = () => {
               <Breadcrumb.Item active className="text-light">
                 Free Games
               </Breadcrumb.Item>
-              <Breadcrumb.Item active className="text-light">
+              <Breadcrumb.Item active className="text-light d-none d-md-block">
                 {isLoading || !currentGame ? (
                   <BSpinner animation="grow" size="sm" />
                 ) : (
@@ -84,6 +84,8 @@ export const GamePage: FC = () => {
         <>
           <Row>
             <Col md={4}>
+              <h1 className="d-md-none d-block mb-3">{currentGame.title}</h1>
+
               <Image
                 src={currentGame.thumbnail}
                 className="w-100 mb-2"
@@ -117,22 +119,26 @@ export const GamePage: FC = () => {
               </div>
             </Col>
             <Col md={8}>
-              <h1>{currentGame.title}</h1>
+              <h1 className="d-none d-md-block">{currentGame.title}</h1>
 
               <Row>
-                <h4 className="text-white-50">Screenshots</h4>
-                <Carousel fade>
-                  {currentGame.screenshots.map((screenshot) => (
-                    <Carousel.Item key={screenshot.id}>
-                      <Image
-                        src={screenshot.image}
-                        className="w-100"
-                        style={{ minHeight: 255 }}
-                        rounded
-                      />
-                    </Carousel.Item>
-                  ))}
-                </Carousel>
+                <h4 className="text-white-50 mt-2 mt-md-0">Screenshots</h4>
+                {currentGame.screenshots.length > 0 ? (
+                  <Carousel fade>
+                    {currentGame.screenshots.map((screenshot) => (
+                      <Carousel.Item key={screenshot.id}>
+                        <Image
+                          src={screenshot.image}
+                          className="w-100"
+                          style={{ minHeight: 165 }}
+                          rounded
+                        />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                ) : (
+                  <h6 className="text-white-50">No available screenshots</h6>
+                )}
               </Row>
 
               <Row></Row>
