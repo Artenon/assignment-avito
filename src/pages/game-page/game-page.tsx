@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Row,
@@ -35,15 +35,18 @@ export const GamePage: FC = () => {
   const currentGame = useAppSelector(getCurrentGame);
   const isLoading = useAppSelector(getIsLoading);
 
-  const [cookies] = useCookies([gameID || ""]);
+  const [cookies] = useCookies(["game-card"]);
 
   const playClickHandler = (url: string) => window.open(url, "_blank");
-  const backClickHandler = () => navigate(AppRoute.Main);
+  const backClickHandler = useCallback(
+    () => navigate(AppRoute.Main),
+    [navigate]
+  );
 
   useEffect(() => {
     if (gameID) {
-      if (cookies[gameID]) {
-        dispatch(actions.setCurrentGame(cookies[gameID]));
+      if (cookies["game-card"] && String(cookies["game-card"].id) === gameID) {
+        dispatch(actions.setCurrentGame(cookies["game-card"]));
       } else {
         dispatch(fetchGame(gameID));
       }

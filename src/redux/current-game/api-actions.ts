@@ -18,7 +18,7 @@ export const fetchGame = createAsyncThunk<
     const { data } = await api.get<GameInfo>(`${APIRoute.Game}?id=${id}`);
 
     const cookies = new Cookies();
-    cookies.set(String(data.id), data, { path: "/", maxAge: 300 });
+    cookies.set("game-card", data, { path: "/", maxAge: 300 });
 
     return data;
   }
