@@ -8,9 +8,13 @@ import { Spinner } from "../../components/spinner/spinner";
 import { GameCard } from "../../components/game-card/game-card";
 import { FilterPlatform, FilterGenre, Sorting } from "../../components/filter";
 import { SideBar } from "../../components/sidebar/sidebar";
+import { Pagination } from "../../components/pagination/pagination";
+import { Game } from "../../types/types";
 
 export const MainPage: FC = () => {
   const dispatch = useAppDispatch();
+
+  const [currentItems, setCurrentItems] = useState<Game[]>([]);
 
   const games = useAppSelector(getGames);
   const isLoading = useAppSelector(getIsLoading);
@@ -56,15 +60,20 @@ export const MainPage: FC = () => {
       {isLoading ? (
         <Spinner />
       ) : (
-        <Row className="g-4 py-4 pt-0 pt-md-4">
+        <Row className="g-4 pt-0 pt-md-4">
           {games.length === 0 ? (
             <h3 className="text-white">Ничего не найдено :(</h3>
           ) : (
-            games.map((game) => (
-              <Col key={game.id} lg={4} sm={6} xs={12}>
-                <GameCard game={game} />
+            <>
+              {currentItems.map((game) => (
+                <Col key={game.id} lg={4} sm={6} xs={12}>
+                  <GameCard game={game} />
+                </Col>
+              ))}
+              <Col md={12}>
+                <Pagination games={games} setCurrentItems={setCurrentItems} />
               </Col>
-            ))
+            </>
           )}
         </Row>
       )}

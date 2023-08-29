@@ -51,6 +51,7 @@ export const GamePage: FC = () => {
         dispatch(fetchGame(gameID));
       }
     }
+    window.scrollTo({ top: 0 });
   }, [cookies, dispatch, gameID]);
 
   return (
