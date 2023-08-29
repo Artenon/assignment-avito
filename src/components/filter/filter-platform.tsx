@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import Select, { SingleValue } from "react-select";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { filterGames } from "../../redux/games/api-actions";
@@ -12,16 +12,25 @@ export const FilterPlatform: FC<{ light: boolean }> = ({ light }) => {
   const dispatch = useAppDispatch();
 
   const { platform } = useAppSelector(getFilter);
-  const platformOption = platforms.filter((e) => e.value === platform);
+  const platformOption = platforms.filter((e) => e.value === platform)[0];
 
   const changeSelectHandler = (
     newValue: SingleValue<{ value: string; label: string }>
   ) => {
     if (newValue) {
       dispatch(changeFilterPlatform(newValue.value));
-      dispatch(filterGames());
     }
   };
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    if (platformOption) {
+      dispatch(filterGames(controller.signal));
+    }
+
+    return () => controller.abort();
+  }, [dispatch, platformOption]);
 
   return (
     <>

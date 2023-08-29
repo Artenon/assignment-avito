@@ -5,20 +5,20 @@ import { APIRoute, NameSpace } from "../../const";
 
 export const fetchGames = createAsyncThunk<
   Game[],
-  undefined,
+  AbortSignal,
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
->(`${NameSpace.GAMES}/fetchGames`, async (_arg, { dispatch, extra: api }) => {
-  const { data } = await api.get<Game[]>(APIRoute.Games);
+>(`${NameSpace.GAMES}/fetchGames`, async (signal, { dispatch, extra: api }) => {
+  const { data } = await api.get<Game[]>(APIRoute.Games, { signal });
   return data;
 });
 
 export const filterGames = createAsyncThunk<
   Game[] & StatusResponse,
-  undefined,
+  AbortSignal,
   {
     dispatch: AppDispatch;
     state: State;
@@ -26,7 +26,7 @@ export const filterGames = createAsyncThunk<
   }
 >(
   `${NameSpace.GAMES}/filterGames`,
-  async (_arg, { dispatch, extra: api, getState }) => {
+  async (signal, { dispatch, extra: api, getState }) => {
     const {
       GAMES: {
         filter: { categories, platform, sorting },
@@ -37,14 +37,16 @@ export const filterGames = createAsyncThunk<
       const { data } = await api.get<Game[] & StatusResponse>(
         `${APIRoute.Filter}?tag=${categories.join(".")}${
           platform ? `&platform=${platform}` : ""
-        }${sorting ? `&sort-by=${sorting}` : ""}`
+        }${sorting ? `&sort-by=${sorting}` : ""}`,
+        { signal }
       );
       return data;
     } else {
       const { data } = await api.get<Game[] & StatusResponse>(
         `${APIRoute.Games}?${platform ? `platform=${platform}` : ""}${
           categories.length === 1 ? `&category=${categories[0]}` : ""
-        }${sorting ? `&sort-by=${sorting}` : ""}`
+        }${sorting ? `&sort-by=${sorting}` : ""}`,
+        { signal }
       );
       return data;
     }

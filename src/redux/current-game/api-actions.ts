@@ -6,7 +6,7 @@ import { APIRoute, NameSpace } from "../../const";
 
 export const fetchGame = createAsyncThunk<
   GameInfo,
-  string,
+  { id: string; signal: AbortSignal },
   {
     dispatch: AppDispatch;
     state: State;
@@ -14,8 +14,10 @@ export const fetchGame = createAsyncThunk<
   }
 >(
   `${NameSpace.CURRENT_GAME}/fetchGame`,
-  async (id, { dispatch, extra: api }) => {
-    const { data } = await api.get<GameInfo>(`${APIRoute.Game}?id=${id}`);
+  async ({ id, signal }, { extra: api }) => {
+    const { data } = await api.get<GameInfo>(`${APIRoute.Game}?id=${id}`, {
+      signal,
+    });
 
     const cookies = new Cookies();
     cookies.set("game-card", data, { path: "/", maxAge: 300 });

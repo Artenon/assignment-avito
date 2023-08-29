@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import Select, { MultiValue } from "react-select";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { getFilter } from "../../redux/games/selectors";
@@ -18,9 +18,18 @@ export const FilterGenre: FC<{ light: boolean }> = ({ light }) => {
   ) => {
     if (newValues) {
       dispatch(changeFilterGenres(newValues.map((value) => value.value)));
-      dispatch(filterGames());
     }
   };
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    if (categories.length > 0) {
+      dispatch(filterGames(controller.signal));
+    }
+
+    return () => controller.abort();
+  }, [dispatch, categories.length]);
 
   return (
     <>

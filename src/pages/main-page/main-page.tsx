@@ -2,8 +2,14 @@ import { FC, useEffect, useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { FaFilter } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { fetchGames, filterGames } from "../../redux/games/api-actions";
-import { getFilter, getGames, getIsLoading } from "../../redux/games/selectors";
+import { fetchGames } from "../../redux/games/api-actions";
+import {
+  getFilter,
+  getGames,
+  getIsLoading,
+  getIsFilterLoading,
+  getError,
+} from "../../redux/games/selectors";
 import { Spinner } from "../../components/spinner/spinner";
 import { GameCard } from "../../components/game-card/game-card";
 import { FilterPlatform, FilterGenre, Sorting } from "../../components/filter";
@@ -18,17 +24,21 @@ export const MainPage: FC = () => {
 
   const games = useAppSelector(getGames);
   const isLoading = useAppSelector(getIsLoading);
+  const error = useAppSelector(getError);
+  const isFilterLoading = useAppSelector(getIsFilterLoading);
   const { sorting, categories, platform } = useAppSelector(getFilter);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const openHandler = () => setIsOpen(true);
 
   useEffect(() => {
-    if (sorting || platform || categories.length !== 0) {
-      dispatch(filterGames());
-    } else {
-      dispatch(fetchGames());
+    const controller = new AbortController();
+
+    if (!platform && !sorting && categories.length === 0) {
+      dispatch(fetchGames(controller.signal));
     }
+
+    return () => controller.abort();
   }, [categories.length, dispatch, platform, sorting]);
 
   return (
@@ -57,11 +67,11 @@ export const MainPage: FC = () => {
           <Sorting light={false} />
         </Col>
       </Row>
-      {isLoading ? (
+      {isLoading || isFilterLoading ? (
         <Spinner />
       ) : (
         <Row className="g-4 pt-0 pt-md-4">
-          {games.length === 0 ? (
+          {error ? (
             <h3 className="text-white">Ничего не найдено :(</h3>
           ) : (
             <>

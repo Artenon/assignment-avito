@@ -5,3 +5,6 @@ export const getCurrentGame = (state: State): GameInfo | null =>
 
 export const getIsLoading = (state: State): boolean =>
   state.CURRENT_GAME.isLoading;
+
+export const getError = (state: State): string | null =>
+  state.CURRENT_GAME.error;

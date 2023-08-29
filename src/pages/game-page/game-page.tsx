@@ -17,6 +17,7 @@ import { fetchGame } from "../../redux/current-game/api-actions";
 import {
   getCurrentGame,
   getIsLoading,
+  getError,
 } from "../../redux/current-game/selectors";
 import { actions } from "../../redux/current-game/current-game-slice";
 import { Spinner } from "../../components/spinner/spinner";
@@ -34,6 +35,7 @@ export const GamePage: FC = () => {
 
   const currentGame = useAppSelector(getCurrentGame);
   const isLoading = useAppSelector(getIsLoading);
+  const error = useAppSelector(getError);
 
   const [cookies] = useCookies(["game-card"]);
 
@@ -44,14 +46,18 @@ export const GamePage: FC = () => {
   );
 
   useEffect(() => {
+    const controller = new AbortController();
+
     if (gameID) {
       if (cookies["game-card"] && String(cookies["game-card"].id) === gameID) {
         dispatch(actions.setCurrentGame(cookies["game-card"]));
       } else {
-        dispatch(fetchGame(gameID));
+        dispatch(fetchGame({ id: gameID, signal: controller.signal }));
       }
     }
     window.scrollTo({ top: 0 });
+
+    return () => controller.abort();
   }, [cookies, dispatch, gameID]);
 
   return (
@@ -68,8 +74,10 @@ export const GamePage: FC = () => {
                 Free Games
               </Breadcrumb.Item>
               <Breadcrumb.Item active className="text-light d-none d-md-block">
-                {isLoading || !currentGame ? (
+                {isLoading ? (
                   <BSpinner animation="grow" size="sm" />
+                ) : !currentGame ? (
+                  "-"
                 ) : (
                   currentGame.title
                 )}
@@ -81,9 +89,11 @@ export const GamePage: FC = () => {
       {isLoading ? (
         <Spinner />
       ) : !currentGame ? (
-        <Row>
-          <h3>Ничего не найдено :(</h3>
-        </Row>
+        error && (
+          <Row>
+            <h3>Ничего не найдено :(</h3>
+          </Row>
+        )
       ) : (
         <>
           <Row>
