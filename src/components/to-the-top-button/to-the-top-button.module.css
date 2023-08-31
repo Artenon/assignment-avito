@@ -1,0 +1,35 @@
+.toTheTop {
+  position: fixed;
+  bottom: 30px;
+  right: 28px;
+  transition: .2s;
+  z-index: 10;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 3px #212529;
+}
+
+.toTheTop.visible {
+  transform: scale(1);
+  opacity: 1;
+  cursor: pointer;
+}
+
+.toTheTop.hidden {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.toTheTop:hover {
+  transform: scale(1.05);
+}
+
+.toTheTop:active {
+  transform: scale(0.95);
+}
+
+.toTheTop svg {
+  width: 35px;
+  height: 35px;
+  color: #212529;
+}

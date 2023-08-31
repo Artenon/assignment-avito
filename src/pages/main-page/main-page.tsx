@@ -14,6 +14,7 @@ import { GameCard } from "../../components/game-card/game-card";
 import { FilterPlatform, FilterGenre, Sorting } from "../../components/filter";
 import { SideBar } from "../../components/sidebar/sidebar";
 import { Pagination } from "../../components/pagination/pagination";
+import { ToTheTopButton } from "../../components/to-the-top-button/to-the-top-button";
 import { Game } from "../../types/types";
 
 export const MainPage: FC = () => {
@@ -42,6 +43,7 @@ export const MainPage: FC = () => {
   return (
     <div data-testid="main-page">
       <SideBar />
+      <ToTheTopButton />
 
       <Row data-testid="filters">
         <Col md={4} className="d-none d-md-block">
