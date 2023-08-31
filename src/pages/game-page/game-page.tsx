@@ -55,7 +55,6 @@ export const GamePage: FC = () => {
         dispatch(fetchGame({ id: gameID, signal: controller.signal }));
       }
     }
-    window.scrollTo({ top: 0 });
 
     return () => controller.abort();
   }, [cookies, dispatch, gameID]);
