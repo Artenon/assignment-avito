@@ -36,6 +36,7 @@ export const ToTheTopButton: FC = () => {
     <div
       className={`${s.toTheTop} ${visible ? `${s.visible}` : `${s.hidden}`}`}
       onClick={scrollToTheTop}
+      data-testid="to-the-top"
     >
       <IoIosArrowUp />
     </div>
