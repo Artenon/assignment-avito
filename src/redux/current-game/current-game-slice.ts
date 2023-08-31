@@ -4,11 +4,13 @@ import { fetchGame } from "./api-actions";
 import { GameInfo } from "../../types/types";
 import { toastifyOptions, NameSpace } from "../../const";
 
-const initialState: {
+export type CurrentGameState = {
   game: GameInfo | null;
   isLoading: boolean;
   error: null | string;
-} = {
+};
+
+const initialState: CurrentGameState = {
   game: null,
   isLoading: false,
   error: null,
@@ -33,8 +35,8 @@ export const currentGameSlice = createSlice({
         state.game = action.payload;
       })
       .addCase(fetchGame.rejected, (state, action) => {
+        state.isLoading = false;
         if (action.error.name !== "CanceledError") {
-          state.isLoading = false;
           state.error = "error";
           toast.error(
             "Не удалось получить информацию об игре",

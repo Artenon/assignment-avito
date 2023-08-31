@@ -14,7 +14,7 @@ type GameCardProps = {
 
 export const GameCard: FC<GameCardProps> = ({ game }) => {
   return (
-    <Link to={`${AppRoute.Game}/${game.id}`}>
+    <Link to={`${AppRoute.Game}/${game.id}`} data-testid="game-card">
       <Card bg="dark" text="white" className={`h-100 border-0 ${s.card}`}>
         <LazyLoadImage src={game.thumbnail} style={{ minHeight: 140 }} />
         <Card.Body className="d-flex flex-column justify-content-between">

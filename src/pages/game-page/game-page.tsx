@@ -61,7 +61,7 @@ export const GamePage: FC = () => {
   }, [cookies, dispatch, gameID]);
 
   return (
-    <div className="text-light">
+    <div className="text-light" data-testid="game-page">
       <Row>
         <div className={`d-flex mb-3`}>
           <div
@@ -69,7 +69,7 @@ export const GamePage: FC = () => {
             onClick={backClickHandler}
           >
             <IoReturnUpBack size={24} className="me-2" />
-            <Breadcrumb>
+            <Breadcrumb data-testid="back-btn">
               <Breadcrumb.Item active className="text-light">
                 Free Games
               </Breadcrumb.Item>
@@ -136,7 +136,12 @@ export const GamePage: FC = () => {
               <h1 className="d-none d-md-block">{currentGame.title}</h1>
 
               <Row>
-                <h4 className="text-white-50 mt-2 mt-md-0">Screenshots</h4>
+                <h4
+                  className="text-white-50 mt-2 mt-md-0"
+                  data-testid="screenshots"
+                >
+                  Screenshots
+                </h4>
                 {currentGame.screenshots.length > 0 ? (
                   <Carousel fade>
                     {currentGame.screenshots.map((screenshot) => (
@@ -151,7 +156,9 @@ export const GamePage: FC = () => {
                     ))}
                   </Carousel>
                 ) : (
-                  <h6 className="text-white-50">No available screenshots</h6>
+                  <h6 className="text-white-50" data-testid="no-screens">
+                    No available screenshots
+                  </h6>
                 )}
               </Row>
 
@@ -161,7 +168,9 @@ export const GamePage: FC = () => {
           {currentGame.minimum_system_requirements && (
             <Row className="mt-4">
               <Col md={{ offset: 4 }}>
-                <h4 className="text-white-50">Minimum System Requirements:</h4>
+                <h4 className="text-white-50" data-testid="requirements">
+                  Minimum System Requirements:
+                </h4>
                 <Row>
                   <Col>
                     <div className="d-flex flex-column mb-2">

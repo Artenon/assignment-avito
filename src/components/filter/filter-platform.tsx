@@ -1,7 +1,6 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import Select, { SingleValue } from "react-select";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { filterGames } from "../../redux/games/api-actions";
 import { getFilter } from "../../redux/games/selectors";
 import actions from "../../redux/games/games-slice";
 import { platforms } from "../../const";
@@ -22,19 +21,9 @@ export const FilterPlatform: FC<{ light: boolean }> = ({ light }) => {
     }
   };
 
-  useEffect(() => {
-    const controller = new AbortController();
-
-    if (platformOption) {
-      dispatch(filterGames(controller.signal));
-    }
-
-    return () => controller.abort();
-  }, [dispatch, platformOption]);
-
   return (
     <>
-      <h5 className={`${light ? "text-muted" : "text-white"}`}>Platform:</h5>
+      <h5 className={`${light ? "text-white-50" : "text-white"}`}>Platform:</h5>
       <Select
         options={platforms}
         placeholder="Select Platform"

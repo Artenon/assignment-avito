@@ -1,0 +1,11 @@
+.navbar {
+  padding-top: 0;
+  padding-bottom: 12px;
+}
+
+.filter {
+  padding: 5px 0px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

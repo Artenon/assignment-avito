@@ -5,7 +5,7 @@ import s from "./spinner.module.css";
 
 export const Spinner: FC = () => {
   return (
-    <div className={s.spinner}>
+    <div className={s.spinner} data-testid="spinner">
       <ReactSpinner variant="light" />
     </div>
   );

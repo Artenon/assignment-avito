@@ -1,5 +1,3 @@
-import { AsyncThunk } from "@reduxjs/toolkit";
-import { AxiosRequestConfig } from "axios";
 import { store } from "../redux/store";
 
 export type State = ReturnType<typeof store.getState>;

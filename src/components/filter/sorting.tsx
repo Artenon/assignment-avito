@@ -1,8 +1,7 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import Select, { SingleValue } from "react-select";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { getFilter } from "../../redux/games/selectors";
-import { filterGames } from "../../redux/games/api-actions";
 import actions from "../../redux/games/games-slice";
 import { sortOptions } from "../../const";
 
@@ -24,19 +23,9 @@ export const Sorting: FC<{ light: boolean }> = ({ light }) => {
     }
   };
 
-  useEffect(() => {
-    const controller = new AbortController();
-
-    if (sortingOption) {
-      dispatch(filterGames(controller.signal));
-    }
-
-    return () => controller.abort();
-  }, [dispatch, sortingOption]);
-
   return (
     <>
-      <h5 className={`${light ? "text-muted" : "text-white"}`}>Sort by:</h5>
+      <h5 className={`${light ? "text-white-50" : "text-white"}`}>Sort by:</h5>
       <Select
         options={sortOptions}
         placeholder="Select Sorting"

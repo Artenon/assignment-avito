@@ -7,7 +7,7 @@ export const createAPI = (): AxiosInstance => {
     baseURL: BASE_URL,
     headers: {
       "X-RapidAPI-Host": "free-to-play-games-database.p.rapidapi.com",
-      "X-RapidAPI-Key": process.env.REACT_APP_API_KEY,
+      "X-RapidAPI-Key": process.env.REACT_APP_API_KEY!,
     },
   });
 

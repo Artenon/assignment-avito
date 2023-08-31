@@ -4,14 +4,16 @@ import { fetchGames, filterGames } from "./api-actions";
 import { Game, Filter } from "../../types/types";
 import { toastifyOptions, NameSpace } from "../../const";
 
-const initialState: {
+export type GamesSliceState = {
   games: Game[];
   isLoading: boolean;
   isFilterLoading: boolean;
   filter: Filter;
   currentGame: Game | null;
   error: null | string;
-} = {
+};
+
+const initialState: GamesSliceState = {
   games: [],
   isLoading: false,
   isFilterLoading: false,

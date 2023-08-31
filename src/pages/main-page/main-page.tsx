@@ -1,8 +1,7 @@
 import { FC, useEffect, useState } from "react";
-import { Row, Col, Button } from "react-bootstrap";
-import { FaFilter } from "react-icons/fa";
+import { Row, Col } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { fetchGames } from "../../redux/games/api-actions";
+import { fetchGames, filterGames } from "../../redux/games/api-actions";
 import {
   getFilter,
   getGames,
@@ -28,13 +27,12 @@ export const MainPage: FC = () => {
   const isFilterLoading = useAppSelector(getIsFilterLoading);
   const { sorting, categories, platform } = useAppSelector(getFilter);
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const openHandler = () => setIsOpen(true);
-
   useEffect(() => {
     const controller = new AbortController();
 
-    if (!platform && !sorting && categories.length === 0) {
+    if (sorting || platform || categories.length !== 0) {
+      dispatch(filterGames(controller.signal));
+    } else {
       dispatch(fetchGames(controller.signal));
     }
 
@@ -42,21 +40,10 @@ export const MainPage: FC = () => {
   }, [categories.length, dispatch, platform, sorting]);
 
   return (
-    <>
-      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
+    <div data-testid="main-page">
+      <SideBar />
 
-      <Button
-        variant="secondary"
-        onClick={openHandler}
-        className="d-md-none mb-3"
-      >
-        <div className="d-flex align-items-center gap-2">
-          <FaFilter />
-          Filter
-        </div>
-      </Button>
-
-      <Row>
+      <Row data-testid="filters">
         <Col md={4} className="d-none d-md-block">
           <FilterPlatform light={false} />
         </Col>
@@ -71,7 +58,7 @@ export const MainPage: FC = () => {
         <Spinner />
       ) : (
         <Row className="g-4 pt-0 pt-md-4">
-          {error ? (
+          {error || games.length === 0 ? (
             <h3 className="text-white">Ничего не найдено :(</h3>
           ) : (
             <>
@@ -87,6 +74,6 @@ export const MainPage: FC = () => {
           )}
         </Row>
       )}
-    </>
+    </div>
   );
 };

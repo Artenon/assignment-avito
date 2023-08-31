@@ -1,8 +1,7 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import Select, { MultiValue } from "react-select";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { getFilter } from "../../redux/games/selectors";
-import { filterGames } from "../../redux/games/api-actions";
 import actions from "../../redux/games/games-slice";
 import { genres } from "../../const";
 
@@ -21,19 +20,9 @@ export const FilterGenre: FC<{ light: boolean }> = ({ light }) => {
     }
   };
 
-  useEffect(() => {
-    const controller = new AbortController();
-
-    if (categories.length > 0) {
-      dispatch(filterGames(controller.signal));
-    }
-
-    return () => controller.abort();
-  }, [dispatch, categories.length]);
-
   return (
     <>
-      <h5 className={`${light ? "text-muted" : "text-white"}`}>Genres:</h5>
+      <h5 className={`${light ? "text-white-50" : "text-white"}`}>Genres:</h5>
       <Select
         options={genres.map((genre) => ({ value: genre, label: genre }))}
         placeholder="Select Genre"

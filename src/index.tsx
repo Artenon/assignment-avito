@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { CookiesProvider } from "react-cookie";
 import { ToastContainer } from "react-toastify";
@@ -15,9 +16,11 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <Provider store={store}>
-    <CookiesProvider defaultSetOptions={{ path: "/" }}>
-      <ToastContainer />
-      <App />
-    </CookiesProvider>
+    <BrowserRouter>
+      <CookiesProvider defaultSetOptions={{ path: "/" }}>
+        <ToastContainer />
+        <App />
+      </CookiesProvider>
+    </BrowserRouter>
   </Provider>
 );
