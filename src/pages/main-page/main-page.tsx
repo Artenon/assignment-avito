@@ -1,14 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { fetchGames, filterGames } from "../../redux/games/api-actions";
-import {
-  getFilter,
-  getGames,
-  getIsLoading,
-  getIsFilterLoading,
-  getError,
-} from "../../redux/games/selectors";
+import { getGames, getFilter } from "../../redux/games/selectors";
 import { Spinner } from "../../components/spinner/spinner";
 import { GameCard } from "../../components/game-card/game-card";
 import { FilterPlatform, FilterGenre, Sorting } from "../../components/filter";
@@ -16,6 +9,13 @@ import { SideBar } from "../../components/sidebar/sidebar";
 import { Pagination } from "../../components/pagination/pagination";
 import { ToTheTopButton } from "../../components/to-the-top-button/to-the-top-button";
 import { Game } from "../../types/types";
+import {
+  useLazyFetchGamesQuery,
+  useLazyFilterGamesQuery,
+} from "../../services/games-service";
+import actions from "../../redux/games/games-slice";
+
+const { changeGames } = actions;
 
 export const MainPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -23,22 +23,33 @@ export const MainPage: FC = () => {
   const [currentItems, setCurrentItems] = useState<Game[]>([]);
 
   const games = useAppSelector(getGames);
-  const isLoading = useAppSelector(getIsLoading);
-  const error = useAppSelector(getError);
-  const isFilterLoading = useAppSelector(getIsFilterLoading);
-  const { sorting, categories, platform } = useAppSelector(getFilter);
+  const { categories, platform, sorting } = useAppSelector(getFilter);
+
+  const [fetchGames, { isLoading, isError, data }] = useLazyFetchGamesQuery();
+  const [
+    filterGames,
+    {
+      isFetching: isFilterFetching,
+      data: filteredGames,
+      isError: isFilterError,
+    },
+  ] = useLazyFilterGamesQuery();
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    if (sorting || platform || categories.length !== 0) {
-      dispatch(filterGames(controller.signal));
-    } else {
-      dispatch(fetchGames(controller.signal));
+    if (filteredGames && filteredGames?.status !== 0) {
+      dispatch(changeGames(filteredGames));
+    } else if (data && data?.status !== 0) {
+      dispatch(changeGames(data));
     }
+  }, [data, filteredGames, dispatch]);
 
-    return () => controller.abort();
-  }, [categories.length, dispatch, platform, sorting]);
+  useEffect(() => {
+    if (sorting || platform || categories.length !== 0) {
+      filterGames({ categories, platform, sorting });
+    } else {
+      fetchGames();
+    }
+  }, [categories, platform, sorting, fetchGames, filterGames]);
 
   return (
     <div data-testid="main-page">
@@ -56,11 +67,15 @@ export const MainPage: FC = () => {
           <Sorting light={false} />
         </Col>
       </Row>
-      {isLoading || isFilterLoading ? (
+      {isLoading || isFilterFetching ? (
         <Spinner />
       ) : (
         <Row className="g-4 pt-0 pt-md-4">
-          {error || games.length === 0 ? (
+          {isError ||
+          isFilterError ||
+          !games ||
+          data?.status === 0 ||
+          filteredGames?.status === 0 ? (
             <h3 className="text-white">Ничего не найдено :(</h3>
           ) : (
             <>

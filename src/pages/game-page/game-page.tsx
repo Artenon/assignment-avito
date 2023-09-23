@@ -1,5 +1,6 @@
 import { FC, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Cookies } from "react-cookie";
 import {
   Row,
   Col,
@@ -13,19 +14,17 @@ import { useCookies } from "react-cookie";
 import { FaSignInAlt } from "react-icons/fa";
 import { IoReturnUpBack } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { fetchGame } from "../../redux/current-game/api-actions";
-import {
-  getCurrentGame,
-  getIsLoading,
-  getError,
-} from "../../redux/current-game/selectors";
-import { actions } from "../../redux/current-game/current-game-slice";
 import { Spinner } from "../../components/spinner/spinner";
 import { formatDate } from "../../utils/format-date";
 import { LightText } from "../../components/light-text/light-text";
 import { AppRoute } from "../../const";
+import { useLazyFetchGameQuery } from "../../services/games-service";
+import { getCurrentGame } from "../../redux/current-game/selectors";
+import { actions } from "../../redux/current-game/current-game-slice";
 
 import s from "./game-page.module.css";
+
+const { setCurrentGame } = actions;
 
 export const GamePage: FC = () => {
   const dispatch = useAppDispatch();
@@ -34,8 +33,8 @@ export const GamePage: FC = () => {
   const { gameID } = useParams();
 
   const currentGame = useAppSelector(getCurrentGame);
-  const isLoading = useAppSelector(getIsLoading);
-  const error = useAppSelector(getError);
+
+  const [fetchGame, { isLoading, data, isError }] = useLazyFetchGameQuery();
 
   const [cookies] = useCookies(["game-card"]);
 
@@ -46,18 +45,22 @@ export const GamePage: FC = () => {
   );
 
   useEffect(() => {
-    const controller = new AbortController();
-
     if (gameID) {
       if (cookies["game-card"] && String(cookies["game-card"].id) === gameID) {
-        dispatch(actions.setCurrentGame(cookies["game-card"]));
+        dispatch(setCurrentGame(cookies["game-card"]));
       } else {
-        dispatch(fetchGame({ id: gameID, signal: controller.signal }));
+        fetchGame(gameID);
       }
     }
+  }, [cookies, dispatch, fetchGame, gameID]);
 
-    return () => controller.abort();
-  }, [cookies, dispatch, gameID]);
+  useEffect(() => {
+    if (data) {
+      dispatch(setCurrentGame(data));
+      const cookies = new Cookies();
+      cookies.set("game-card", data, { path: "/", maxAge: 300 });
+    }
+  }, [data, dispatch]);
 
   return (
     <div className="text-light" data-testid="game-page">
@@ -88,7 +91,7 @@ export const GamePage: FC = () => {
       {isLoading ? (
         <Spinner />
       ) : !currentGame ? (
-        error && (
+        isError && (
           <Row>
             <h3>Ничего не найдено :(</h3>
           </Row>
